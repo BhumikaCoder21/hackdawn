@@ -22,16 +22,68 @@ import toast, { Toaster } from "react-hot-toast";
 
 // --- Mock data (replace with API later) ---
 const DRIVERS = [
-  { id: "DRV101", name: "Rakesh Kumar", vehicleType: "Mini Truck", capacityKg: 1500, from: "Guwahati", to: "Shillong", date: "2025-11-07", price: 2800, rating: 4.7, phone: "+91 91234 32345", notes: "Experienced in farm produce; tarpaulin available." },
-  { id: "DRV102", name: "Anita Das",    vehicleType: "Pickup",     capacityKg: 800,  from: "Tezpur",   to: "Guwahati", date: "2025-11-07", price: 1600, rating: 4.5, phone: "+91 89876 99876", notes: "Refrigerated crates on request." },
-  { id: "DRV103", name: "Bipul Saikia", vehicleType: "Tempo",      capacityKg: 1200, from: "Jorhat",   to: "Dibrugarh",date: "2025-11-08", price: 2100, rating: 4.3, phone: "+91 70112 01122", notes: "Night driving ok; loading help possible." },
-  { id: "DRV104", name: "Meera Gogoi",  vehicleType: "Mini Truck", capacityKg: 2000, from: "Guwahati", to: "Nagaon",   date: "2025-11-09", price: 3200, rating: 4.9, phone: "+91 98776 77766", notes: "GPS live share; blankets & straps included." },
+  {
+    id: "DRV101",
+    name: "Rakesh Kumar",
+    vehicleType: "Mini Truck",
+    capacityKg: 1500,
+    from: "Guwahati",
+    to: "Shillong",
+    date: "2025-11-07",
+    price: 2800,
+    rating: 4.7,
+    phone: "+91 91234 32345",
+    notes: "Experienced in farm produce; tarpaulin available.",
+  },
+  {
+    id: "DRV102",
+    name: "Anita Das",
+    vehicleType: "Pickup",
+    capacityKg: 800,
+    from: "Tezpur",
+    to: "Guwahati",
+    date: "2025-11-07",
+    price: 1600,
+    rating: 4.5,
+    phone: "+91 89876 99876",
+    notes: "Refrigerated crates on request.",
+  },
+  {
+    id: "DRV103",
+    name: "Bipul Saikia",
+    vehicleType: "Tempo",
+    capacityKg: 1200,
+    from: "Jorhat",
+    to: "Dibrugarh",
+    date: "2025-11-08",
+    price: 2100,
+    rating: 4.3,
+    phone: "+91 70112 01122",
+    notes: "Night driving ok; loading help possible.",
+  },
+  {
+    id: "DRV104",
+    name: "Meera Gogoi",
+    vehicleType: "Mini Truck",
+    capacityKg: 2000,
+    from: "Guwahati",
+    to: "Nagaon",
+    date: "2025-11-09",
+    price: 3200,
+    rating: 4.9,
+    phone: "+91 98776 77766",
+    notes: "GPS live share; blankets & straps included.",
+  },
 ];
 
 // ---------- UI helpers ----------
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 14 } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 100, damping: 14 },
+  },
   exit: { opacity: 0, y: -10 },
 };
 
@@ -40,7 +92,11 @@ const titleContainerVariants = {
 };
 const titleWordVariants = {
   hidden: { y: "100%", opacity: 0 },
-  show: { y: "0%", opacity: 1, transition: { type: "spring", stiffness: 100, damping: 12 } },
+  show: {
+    y: "0%",
+    opacity: 1,
+    transition: { type: "spring", stiffness: 100, damping: 12 },
+  },
 };
 
 // This is the LIGHT chip, used in the hero
@@ -64,9 +120,20 @@ function DarkChip({ icon: Icon, children }) {
 function Rating({ value }) {
   const stars = Array.from({ length: 5 });
   return (
-    <div className="flex items-center gap-0.5" aria-label={`Rated ${value} out of 5`}>
+    <div
+      className="flex items-center gap-0.5"
+      aria-label={`Rated ${value} out of 5`}
+    >
       {stars.map((_, i) => (
-        <Star key={i} className={"h-4 w-4 " + (i < Math.round(value) ? "fill-yellow-400 text-yellow-500" : "text-gray-400")} />
+        <Star
+          key={i}
+          className={
+            "h-4 w-4 " +
+            (i < Math.round(value)
+              ? "fill-yellow-400 text-yellow-500"
+              : "text-gray-400")
+          }
+        />
       ))}
       {/* REFINEMENT: text-gray-500 looks good on both light and dark backgrounds */}
       <span className="ml-1 text-xs text-gray-500">{value.toFixed(1)}</span>
@@ -105,7 +172,7 @@ function SkeletonCard() {
 
 // ---------- Booking Modal ----------
 function BookingModal({ driver, open, onClose }) {
-  const [form, setForm] =useState({
+  const [form, setForm] = useState({
     name: "",
     phone: "",
     pickup: driver?.from || "",
@@ -117,7 +184,12 @@ function BookingModal({ driver, open, onClose }) {
 
   useEffect(() => {
     if (driver) {
-      setForm((f) => ({ ...f, pickup: driver.from, drop: driver.to, date: driver.date }));
+      setForm((f) => ({
+        ...f,
+        pickup: driver.from,
+        drop: driver.to,
+        date: driver.date,
+      }));
     }
   }, [driver]);
 
@@ -143,21 +215,34 @@ function BookingModal({ driver, open, onClose }) {
 
   const submit = (e) => {
     e.preventDefault();
-    if (!form.name || !form.phone || !form.pickup || !form.drop || !form.date || !form.weight) {
+    if (
+      !form.name ||
+      !form.phone ||
+      !form.pickup ||
+      !form.drop ||
+      !form.date ||
+      !form.weight
+    ) {
       toast.error("Please fill all required fields.");
       return;
     }
     window.open(makeWhatsAppLink(), "_blank");
     navigator.clipboard?.writeText(
-      `Customer: ${form.name}, Phone: ${form.phone}\nPickup: ${form.pickup}\nDrop: ${form.drop}\nDate: ${form.date}\nWeight: ${form.weight} kg\nNotes: ${form.notes || "-"}`
+      `Customer: ${form.name}, Phone: ${form.phone}\nPickup: ${
+        form.pickup
+      }\nDrop: ${form.drop}\nDate: ${form.date}\nWeight: ${
+        form.weight
+      } kg\nNotes: ${form.notes || "-"}`
     );
     toast.success("Opening WhatsApp and copied summary to clipboard ✅");
     onClose();
   };
 
-  const inputClass = "w-full rounded-xl border border-slate-600 bg-slate-700/80 px-3 py-2.5 pl-9 text-sm text-white placeholder-gray-400 focus:bg-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500";
-  const iconClass = "pointer-events-none absolute left-2.5 top-3 h-4 w-4 text-emerald-400 group-focus-within:text-emerald-300";
-  
+  const inputClass =
+    "w-full rounded-xl border border-slate-600 bg-slate-700/80 px-3 py-2.5 pl-9 text-sm text-white placeholder-gray-400 focus:bg-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500";
+  const iconClass =
+    "pointer-events-none absolute left-2.5 top-3 h-4 w-4 text-emerald-400 group-focus-within:text-emerald-300";
+
   return (
     <AnimatePresence>
       {open && driver && (
@@ -187,12 +272,18 @@ function BookingModal({ driver, open, onClose }) {
               />
               <div className="flex items-start justify-between p-5">
                 <div>
-                  <h2 className="flex items-center gap-2 text-xl font-bold text-white"><Sparkles className="h-5 w-5 text-green-400"/> Book Driver</h2>
+                  <h2 className="flex items-center gap-2 text-xl font-bold text-white">
+                    <Sparkles className="h-5 w-5 text-green-400" /> Book Driver
+                  </h2>
                   <p className="text-sm text-gray-400">
-                    {driver.name} • {driver.vehicleType} • {driver.capacityKg} kg • ₹{driver.price}
+                    {driver.name} • {driver.vehicleType} • {driver.capacityKg}{" "}
+                    kg • ₹{driver.price}
                   </p>
                 </div>
-                <button onClick={onClose} className="rounded-full p-1.5 text-gray-400 hover:bg-gray-700">
+                <button
+                  onClick={onClose}
+                  className="rounded-full p-1.5 text-gray-400 hover:bg-gray-700"
+                >
                   <X className="h-5 w-5" />
                 </button>
               </div>
@@ -202,59 +293,115 @@ function BookingModal({ driver, open, onClose }) {
             <form onSubmit={submit} className="grid grid-cols-1 gap-4 p-5 pt-0">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="relative group">
-                  <input name="name" value={form.name} onChange={onChange} placeholder="Your name *" className={inputClass}/>
-                  <Sparkles className={iconClass}/>
+                  <input
+                    name="name"
+                    value={form.name}
+                    onChange={onChange}
+                    placeholder="Your name *"
+                    className={inputClass}
+                  />
+                  <Sparkles className={iconClass} />
                 </div>
                 <div className="relative group">
-                  <input name="phone" value={form.phone} onChange={onChange} placeholder="Your phone *" className={inputClass}/>
-                  <Phone className={iconClass}/>
+                  <input
+                    name="phone"
+                    value={form.phone}
+                    onChange={onChange}
+                    placeholder="Your phone *"
+                    className={inputClass}
+                  />
+                  <Phone className={iconClass} />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="relative group">
-                  <input name="pickup" value={form.pickup} onChange={onChange} placeholder="Pickup location *" className={inputClass}/>
-                  <MapPin className={iconClass}/>
+                  <input
+                    name="pickup"
+                    value={form.pickup}
+                    onChange={onChange}
+                    placeholder="Pickup location *"
+                    className={inputClass}
+                  />
+                  <MapPin className={iconClass} />
                 </div>
                 <div className="relative group">
-                  <input name="drop" value={form.drop} onChange={onChange} placeholder="Drop location *" className={inputClass}/>
+                  <input
+                    name="drop"
+                    value={form.drop}
+                    onChange={onChange}
+                    placeholder="Drop location *"
+                    className={inputClass}
+                  />
                   <MapPin className={`${iconClass} text-emerald-400`} />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div className="relative group">
-                  <input type="date" name="date" value={form.date} onChange={onChange} className={inputClass}/>
-                  <Calendar className={iconClass}/>
+                  <input
+                    type="date"
+                    name="date"
+                    value={form.date}
+                    onChange={onChange}
+                    className={inputClass}
+                  />
+                  <Calendar className={iconClass} />
                 </div>
                 <div className="relative group">
-                  <input type="number" name="weight" value={form.weight} onChange={onChange} placeholder="Weight (kg) *" className={inputClass}/>
-                  <Weight className={iconClass}/>
+                  <input
+                    type="number"
+                    name="weight"
+                    value={form.weight}
+                    onChange={onChange}
+                    placeholder="Weight (kg) *"
+                    className={inputClass}
+                  />
+                  <Weight className={iconClass} />
                 </div>
-                <a href={callLink()} className="flex items-center justify-center gap-2 rounded-xl border border-slate-600 bg-slate-700/80 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-slate-700">
-                  <Phone className="h-4 w-4"/> Call Driver
+                <a
+                  href={callLink()}
+                  className="flex items-center justify-center gap-2 rounded-xl border border-slate-600 bg-slate-700/80 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-slate-700"
+                >
+                  <Phone className="h-4 w-4" /> Call Driver
                 </a>
               </div>
 
-              <textarea name="notes" value={form.notes} onChange={onChange} placeholder="Notes for the driver (optional)"
-                        rows={3} className={`${inputClass} pl-3`} />
+              <textarea
+                name="notes"
+                value={form.notes}
+                onChange={onChange}
+                placeholder="Notes for the driver (optional)"
+                rows={3}
+                className={`${inputClass} pl-3`}
+              />
 
               <div className="mt-2 flex items-center justify-end gap-3">
-                <button type="button" onClick={onClose}
-                        className="rounded-xl border border-transparent bg-transparent px-4 py-2 text-sm font-medium text-gray-400 transition hover:bg-gray-700">Cancel</button>
-                <motion.button 
-                  animate={{ 
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="rounded-xl border border-transparent bg-transparent px-4 py-2 text-sm font-medium text-gray-400 transition hover:bg-gray-700"
+                >
+                  Cancel
+                </button>
+                <motion.button
+                  animate={{
                     scale: [1, 1.03, 1],
                     boxShadow: [
-                      "0 0 0 0px rgba(22, 163, 74, 0)", 
+                      "0 0 0 0px rgba(22, 163, 74, 0)",
                       "0 0 0 5px rgba(22, 163, 74, 0.5)",
-                      "0 0 0 0px rgba(22, 163, 74, 0)"
-                    ]
+                      "0 0 0 0px rgba(22, 163, 74, 0)",
+                    ],
                   }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
                   type="submit"
-                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-green-500/20 ring-1 ring-black/5 transition hover:brightness-105 active:scale-[0.98]">
-                  <MessageCircle className="h-4 w-4"/> Send on WhatsApp
+                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-green-500/20 ring-1 ring-black/5 transition hover:brightness-105 active:scale-[0.98]"
+                >
+                  <MessageCircle className="h-4 w-4" /> Send on WhatsApp
                 </motion.button>
               </div>
             </form>
@@ -278,29 +425,35 @@ function DriverCard({ d, onContact }) {
       className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-gray-800/70 to-slate-900/50 backdrop-blur-md shadow-lg"
     >
       {/* corner glow */}
-      <div className="pointer-events-none absolute -inset-x-4 -top-10 h-24 bg-gradient-to-b from-green-400/20 to-transparent opacity-0 blur-2xl transition duration-300 group-hover:opacity-100"/>
-      
+      <div className="pointer-events-none absolute -inset-x-4 -top-10 h-24 bg-gradient-to-b from-green-400/20 to-transparent opacity-0 blur-2xl transition duration-300 group-hover:opacity-100" />
+
       {/* Shine on hover */}
-      <motion.div 
+      <motion.div
         className="pointer-events-none absolute top-0 left-0 h-full w-full opacity-0 group-hover:opacity-10"
-        style={{ background: "linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.2), transparent)" }}
+        style={{
+          background:
+            "linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.2), transparent)",
+        }}
         initial={{ x: "-150%" }}
         whileHover={{ x: "150%" }}
         transition={{ duration: 0.7, ease: "linear" }}
       />
-      
+
       {d.rating >= 4.7 && <TopRatedBadge />}
 
       <div className="p-5">
         <div className="flex items-start justify-between">
           <div>
             {/* REFINEMENT: Name is text-white as requested */}
-            <h3 className="text-lg font-bold tracking-tight text-white">{d.name}</h3>
+            <h3 className="text-lg font-bold tracking-tight text-white">
+              {d.name}
+            </h3>
             <Rating value={d.rating} />
           </div>
           <div className="flex flex-col items-end">
-             <span className="text-xl font-bold text-emerald-400">
-              <span className="text-sm font-medium text-emerald-200">₹</span>{d.price}
+            <span className="text-xl font-bold text-emerald-400">
+              <span className="text-sm font-medium text-emerald-200">₹</span>
+              {d.price}
             </span>
             <span className="text-xs text-gray-400">Total Price</span>
           </div>
@@ -309,9 +462,15 @@ function DriverCard({ d, onContact }) {
         <div className="mt-4">
           {/* REFINEMENT: Light text for dark background */}
           <div className="flex items-center gap-2 text-sm text-gray-300">
-            <span className="flex items-center gap-1.5"><MapPin className="h-4 w-4 text-green-400"/> From: <span className="font-medium text-white">{d.from}</span></span>
+            <span className="flex items-center gap-1.5">
+              <MapPin className="h-4 w-4 text-green-400" /> From:{" "}
+              <span className="font-medium text-white">{d.from}</span>
+            </span>
             <ArrowRight className="h-4 w-4 flex-shrink-0 text-gray-500" />
-            <span className="flex items-center gap-1.5"><MapPin className="h-4 w-4 text-emerald-400"/> To: <span className="font-medium text-white">{d.to}</span></span>
+            <span className="flex items-center gap-1.5">
+              <MapPin className="h-4 w-4 text-emerald-400" /> To:{" "}
+              <span className="font-medium text-white">{d.to}</span>
+            </span>
           </div>
         </div>
 
@@ -322,7 +481,9 @@ function DriverCard({ d, onContact }) {
           <DarkChip icon={Calendar}>{d.date}</DarkChip>
         </div>
 
-        <p className="mt-3 text-sm text-gray-400 line-clamp-2">{d.notes || "No additional notes from driver."}</p>
+        <p className="mt-3 text-sm text-gray-400 line-clamp-2">
+          {d.notes || "No additional notes from driver."}
+        </p>
       </div>
 
       {/* Action area with separator */}
@@ -332,16 +493,18 @@ function DriverCard({ d, onContact }) {
             onClick={() => onContact(d)}
             className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 px-4 py-2.5 text-sm font-medium text-white shadow-lg shadow-green-500/20 ring-1 ring-black/5 transition-all duration-300 ease-in-out hover:brightness-105 group-hover:shadow-xl group-hover:brightness-110 active:scale-[0.98]"
           >
-            <MessageCircle className="h-4 w-4"/> Contact / Book
+            <MessageCircle className="h-4 w-4" /> Contact / Book
           </button>
           <button
             className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white px-4 py-2.5 text-sm font-medium text-gray-800 shadow-sm transition-all hover:bg-gray-50"
             onClick={() => {
-              navigator.share?.({ title: "Driver", text: `Driver ${d.name} (${d.vehicleType})` }) ||
-              toast.success("Share sheet opened / ready ✨");
+              navigator.share?.({
+                title: "Driver",
+                text: `Driver ${d.name} (${d.vehicleType})`,
+              }) || toast.success("Share sheet opened / ready ✨");
             }}
           >
-            <Share2 className="h-4 w-4"/>
+            <Share2 className="h-4 w-4" />
           </button>
         </div>
       </div>
@@ -371,83 +534,144 @@ export default function Drivers() {
 
   const results = useMemo(() => {
     let rows = [...DRIVERS];
-    if (qFrom.trim()) rows = rows.filter(r => r.from.toLowerCase().includes(qFrom.trim().toLowerCase()));
-    if (qTo.trim()) rows = rows.filter(r => r.to.toLowerCase().includes(qTo.trim().toLowerCase()));
-    if (vehicle) rows = rows.filter(r => r.vehicleType === vehicle);
-    if (date) rows = rows.filter(r => r.date === date);
-    if (maxPrice > 0) rows = rows.filter(r => r.price <= maxPrice);
-    if (sortBy === "price") rows.sort((a,b)=> a.price - b.price);
-    if (sortBy === "rating") rows.sort((a,b)=> b.rating - a.rating);
-    if (sortBy === "capacity") rows.sort((a,b)=> b.capacityKg - a.capacityKg);
+    if (qFrom.trim())
+      rows = rows.filter((r) =>
+        r.from.toLowerCase().includes(qFrom.trim().toLowerCase())
+      );
+    if (qTo.trim())
+      rows = rows.filter((r) =>
+        r.to.toLowerCase().includes(qTo.trim().toLowerCase())
+      );
+    if (vehicle) rows = rows.filter((r) => r.vehicleType === vehicle);
+    if (date) rows = rows.filter((r) => r.date === date);
+    if (maxPrice > 0) rows = rows.filter((r) => r.price <= maxPrice);
+    if (sortBy === "price") rows.sort((a, b) => a.price - b.price);
+    if (sortBy === "rating") rows.sort((a, b) => b.rating - a.rating);
+    if (sortBy === "capacity") rows.sort((a, b) => b.capacityKg - a.capacityKg);
     return rows;
   }, [qFrom, qTo, vehicle, date, maxPrice, sortBy]);
 
   // simple pagination (Load More)
   const PAGE = 4;
   const [page, setPage] = useState(1);
-  useEffect(() => { setPage(1); }, [qFrom, qTo, vehicle, date, maxPrice, sortBy]);
+  useEffect(() => {
+    setPage(1);
+  }, [qFrom, qTo, vehicle, date, maxPrice, sortBy]);
   const visible = results.slice(0, PAGE * page);
   const canLoadMore = visible.length < results.length;
 
-  const openBooking = (d) => { setSelectedDriver(d); setModalOpen(true); };
-  const closeBooking = () => { setModalOpen(false); setSelectedDriver(null); };
-  
+  const openBooking = (d) => {
+    setSelectedDriver(d);
+    setModalOpen(true);
+  };
+  const closeBooking = () => {
+    setModalOpen(false);
+    setSelectedDriver(null);
+  };
+
   const handleContact = (drv) => {
-    navigator.clipboard?.writeText(drv.phone); 
-    toast.success("Driver phone copied"); 
-    setTimeout(()=> setSelectedDriver(drv), 50); 
-    setTimeout(()=> setModalOpen(true), 100);
+    navigator.clipboard?.writeText(drv.phone);
+    toast.success("Driver phone copied");
+    setTimeout(() => setSelectedDriver(drv), 50);
+    setTimeout(() => setModalOpen(true), 100);
   };
 
   const clearFilters = () => {
-    setQFrom(""); setQTo(""); setVehicle(""); setDate(""); setMaxPrice(0); setSortBy("price");
+    setQFrom("");
+    setQTo("");
+    setVehicle("");
+    setDate("");
+    setMaxPrice(0);
+    setSortBy("price");
     toast.success("Filters reset");
   };
-  
-  const inputClass = "w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 pl-9 text-white placeholder-white/70 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-400";
-  const selectClass = "w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-white focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-400";
+
+  const inputClass =
+    "w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 pl-9 text-white placeholder-white/70 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-400";
+  const selectClass =
+    "w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-white focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-400";
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[linear-gradient(120deg,#0f172a_0%,#052e1a_35%,#052e1a_65%,#0f1a_100%)] text-white">
       {/* Ambient radial blobs */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <motion.div
-          animate={{ x: [0, -40, 10, 0], y: [0, 50, -10, 0], rotate: [0, 15, 0] }}
-          transition={{ duration: 20, repeat: Infinity, yoyo: true, ease: "easeInOut" }}
+          animate={{
+            x: [0, -40, 10, 0],
+            y: [0, 50, -10, 0],
+            rotate: [0, 15, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            yoyo: true,
+            ease: "easeInOut",
+          }}
           className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-green-600/20 blur-3xl"
         />
         <motion.div
-          animate={{ x: [0, 30, -20, 0], y: [0, -40, 20, 0], rotate: [0, -10, 0] }}
-          transition={{ duration: 25, repeat: Infinity, yoyo: true, ease: "easeInOut", delay: -5 }}
+          animate={{
+            x: [0, 30, -20, 0],
+            y: [0, -40, 20, 0],
+            rotate: [0, -10, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            yoyo: true,
+            ease: "easeInOut",
+            delay: -5,
+          }}
           className="absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-emerald-500/20 blur-3xl"
         />
       </div>
 
-      <Toaster position="top-center" toastOptions={{
-        dark: {
-          className: '!bg-gray-900 !text-white !shadow-lg',
-        },
-        light: {
-           className: '!bg-white !text-gray-900 !shadow-lg',
-        },
-        className: '!bg-gray-900 !text-white !shadow-lg',
-      }}/>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          dark: {
+            className: "!bg-gray-900 !text-white !shadow-lg",
+          },
+          light: {
+            className: "!bg-white !text-gray-900 !shadow-lg",
+          },
+          className: "!bg-gray-900 !text-white !shadow-lg",
+        }}
+      />
 
       <div className="mx-auto max-w-6xl px-4 pt-16 pb-32 md:pb-16">
         {/* Hero header */}
-        <motion.div initial="hidden" animate="show" variants={titleContainerVariants} className="rounded-3xl bg-gradient-to-r from-green-600 via-emerald-600 to-lime-500 p-[2px] shadow-2xl">
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={titleContainerVariants}
+          className="rounded-3xl bg-gradient-to-r from-green-600 via-emerald-600 to-lime-500 p-[2px] shadow-2xl"
+        >
           <div className="rounded-[calc(1.5rem-2px)] bg-gradient-to-b from-green-800/80 to-emerald-900/80 backdrop-blur-sm px-6 py-8">
             <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div>
                 <h1 className="bg-gradient-to-br from-white via-emerald-100 to-emerald-300 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent drop-shadow sm:text-4xl">
                   <span className="inline-block overflow-hidden">
-                    <motion.span variants={titleWordVariants} className="inline-block">Find</motion.span>
+                    <motion.span
+                      variants={titleWordVariants}
+                      className="inline-block"
+                    >
+                      Find
+                    </motion.span>
                   </span>{" "}
                   <span className="inline-block overflow-hidden">
-                    <motion.span variants={titleWordVariants} className="inline-block">Drivers</motion.span>
+                    <motion.span
+                      variants={titleWordVariants}
+                      className="inline-block"
+                    >
+                      Drivers
+                    </motion.span>
                   </span>
                 </h1>
-                <p className="mt-1 text-emerald-100">Search verified drivers by route, date, vehicle type, capacity and price.</p>
+                <p className="mt-1 text-emerald-100">
+                  Search verified drivers by route, date, vehicle type, capacity
+                  and price.
+                </p>
               </div>
               <div className="flex flex-wrap items-center gap-2 text-xs text-emerald-50">
                 <Chip icon={Truck}>Farm Logistics</Chip>
@@ -462,51 +686,101 @@ export default function Drivers() {
         <motion.form
           layout
           className="sticky top-4 z-10 mt-6 grid grid-cols-1 gap-3 rounded-2xl bg-white/10 p-4 shadow-xl ring-1 ring-white/10 backdrop-blur-md md:grid-cols-12"
-          onSubmit={(e)=> e.preventDefault()}
+          onSubmit={(e) => e.preventDefault()}
         >
           <div className="relative md:col-span-3">
-            <input className={inputClass} placeholder="From (e.g., Guwahati)" value={qFrom} onChange={(e)=> setQFrom(e.target.value)} />
-            <MapPin className="pointer-events-none absolute left-2.5 top-3 h-4 w-4 text-emerald-300"/>
+            <input
+              className={inputClass}
+              placeholder="From (e.g., Guwahati)"
+              value={qFrom}
+              onChange={(e) => setQFrom(e.target.value)}
+            />
+            <MapPin className="pointer-events-none absolute left-2.5 top-3 h-4 w-4 text-emerald-300" />
           </div>
           <div className="relative md:col-span-3">
-            <input className={inputClass} placeholder="To (e.g., Shillong)" value={qTo} onChange={(e)=> setQTo(e.target.value)} />
-            <MapPin className="pointer-events-none absolute left-2.5 top-3 h-4 w-4 text-emerald-300"/>
+            <input
+              className={inputClass}
+              placeholder="To (e.g., Shillong)"
+              value={qTo}
+              onChange={(e) => setQTo(e.target.value)}
+            />
+            <MapPin className="pointer-events-none absolute left-2.5 top-3 h-4 w-4 text-emerald-300" />
           </div>
           <div className="md:col-span-2">
-            <select className={selectClass} value={vehicle} onChange={(e)=> setVehicle(e.target.value)}>
-              <option className="bg-slate-900" value="">All Vehicles</option>
+            <select
+              className={selectClass}
+              value={vehicle}
+              onChange={(e) => setVehicle(e.target.value)}
+            >
+              <option className="bg-slate-900" value="">
+                All Vehicles
+              </option>
               <option className="bg-slate-900">Pickup</option>
               <option className="bg-slate-900">Tempo</option>
               <option className="bg-slate-900">Mini Truck</option>
             </select>
           </div>
           <div className="relative md:col-span-2">
-            <input type="date" className={inputClass} value={date} onChange={(e)=> setDate(e.target.value)} />
-            <Calendar className="pointer-events-none absolute left-2.5 top-3 h-4 w-4 text-emerald-300"/>
+            <input
+              type="date"
+              className={inputClass}
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+            <Calendar className="pointer-events-none absolute left-2.5 top-3 h-4 w-4 text-emerald-300" />
           </div>
           <div className="md:col-span-2 flex items-center gap-2">
             <label className="w-24 text-sm text-emerald-100">Max Price</label>
-            <input type="range" min={0} max={5000} step={100} value={maxPrice} onChange={(e)=> setMaxPrice(Number(e.target.value))} className="w-full h-1.5 cursor-pointer accent-emerald-400" />
-            <span className="w-20 text-sm font-semibold text-emerald-100">₹{maxPrice || "Any"}</span>
+            <input
+              type="range"
+              min={0}
+              max={5000}
+              step={100}
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(Number(e.target.value))}
+              className="w-full h-1.5 cursor-pointer accent-emerald-400"
+            />
+            <span className="w-20 text-sm font-semibold text-emerald-100">
+              ₹{maxPrice || "Any"}
+            </span>
           </div>
           <div className="md:col-span-2 flex items-center gap-2">
             <label className="w-20 text-sm text-emerald-100">Sort</label>
-            <select className={selectClass} value={sortBy} onChange={(e)=> setSortBy(e.target.value)}>
-              <option className="bg-slate-900" value="price">Lowest Price</option>
-              <option className="bg-slate-900" value="rating">Highest Rating</option>
-              <option className="bg-slate-900" value="capacity">Largest Capacity</option>
+            <select
+              className={selectClass}
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option className="bg-slate-900" value="price">
+                Lowest Price
+              </option>
+              <option className="bg-slate-900" value="rating">
+                Highest Rating
+              </option>
+              <option className="bg-slate-900" value="capacity">
+                Largest Capacity
+              </option>
             </select>
           </div>
           <div className="md:col-span-2 flex gap-2">
-            <button type="button" onClick={clearFilters}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-transparent bg-transparent px-4 py-2 text-sm text-emerald-200 shadow-sm transition hover:bg-white/10 hover:text-white">
-              <RotateCcw className="h-4 w-4"/> Reset
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-transparent bg-transparent px-4 py-2 text-sm text-emerald-200 shadow-sm transition hover:bg-white/10 hover:text-white"
+            >
+              <RotateCcw className="h-4 w-4" /> Reset
             </button>
-            <motion.button 
+            <motion.button
               animate={{ scale: [1, 1.03, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-lg ring-1 ring-emerald-300 transition hover:brightness-110 active:scale-[0.98]">
-              <Search className="h-4 w-4"/> Search
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                repeatType: "mirror",
+                ease: "easeInOut",
+              }}
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-lg ring-1 ring-emerald-300 transition hover:brightness-110 active:scale-[0.98]"
+            >
+              <Search className="h-4 w-4" /> Search
             </motion.button>
           </div>
         </motion.form>
@@ -514,7 +788,7 @@ export default function Drivers() {
         {/* Results */}
         <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
           {loading ? (
-            [1,2,3,4].map((i)=> <SkeletonCard key={i}/>)
+            [1, 2, 3, 4].map((i) => <SkeletonCard key={i} />)
           ) : (
             <AnimatePresence>
               {visible.length === 0 ? (
@@ -527,7 +801,7 @@ export default function Drivers() {
                   className="col-span-full rounded-2xl border border-white/10 bg-white/5 p-10 text-center text-emerald-100"
                 >
                   <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-300/20">
-                    <Search className="h-6 w-6 text-emerald-200"/>
+                    <Search className="h-6 w-6 text-emerald-200" />
                   </div>
                   No drivers match your filters. Try adjusting your search.
                 </motion.div>
@@ -543,9 +817,11 @@ export default function Drivers() {
         {/* Load more */}
         {!loading && canLoadMore && (
           <div className="mt-8 flex justify-center">
-            <button onClick={()=> setPage((p)=> p+1)}
-                    className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-medium text-emerald-50 shadow-sm transition hover:bg-white/15 active:scale-95">
-              <Filter className="h-4 w-4"/> Load more results
+            <button
+              onClick={() => setPage((p) => p + 1)}
+              className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-medium text-emerald-50 shadow-sm transition hover:bg-white/15 active:scale-95"
+            >
+              <Filter className="h-4 w-4" /> Load more results
             </button>
           </div>
         )}
@@ -554,19 +830,27 @@ export default function Drivers() {
       {/* Mobile sticky bar */}
       <div className="fixed inset-x-0 bottom-3 z-40 mx-auto w-[95%] rounded-2xl bg-white/10 p-2 shadow-lg ring-1 ring-white/10 backdrop-blur-md md:hidden">
         <div className="grid grid-cols-2 gap-2">
-          <button onClick={()=> window.scrollTo({ top: 0, behavior: 'smooth' })}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white">
-            <SlidersHorizontal className="h-4 w-4"/> Filters
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white"
+          >
+            <SlidersHorizontal className="h-4 w-4" /> Filters
           </button>
-          <button onClick={()=> toast("Sorted by " + sortBy, { icon: 'SORT' })}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 text-sm font-medium text-white">
-            <Sparkles className="h-4 w-4"/> Sort
+          <button
+            onClick={() => toast("Sorted by " + sortBy, { icon: "SORT" })}
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 text-sm font-medium text-white"
+          >
+            <Sparkles className="h-4 w-4" /> Sort
           </button>
         </div>
       </div>
 
       {/* Booking Modal */}
-      <BookingModal driver={selectedDriver} open={modalOpen} onClose={closeBooking} />
+      <BookingModal
+        driver={selectedDriver}
+        open={modalOpen}
+        onClose={closeBooking}
+      />
     </div>
   );
 }
