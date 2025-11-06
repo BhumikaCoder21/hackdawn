@@ -7,7 +7,6 @@ export default function FarmerCard({ name, produce, quantity, location }) {
       <p className="text-sm text-gray-700">Produce: {produce}</p>
       <p className="text-sm text-gray-700">Quantity: {quantity} kg</p>
       <p className="text-sm text-gray-500">Location: {location}</p>
-         
     </div>
   );
 }
