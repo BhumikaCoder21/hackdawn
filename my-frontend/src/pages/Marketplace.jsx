@@ -108,20 +108,24 @@ export default function Marketplace() {
       q,
       (snapshot) => {
         try {
-          const firebaseData = snapshot.docs.map((doc) => {
-            const data = doc.data();
-            return {
-              id: doc.id,
-              ...data,
-              // Ensure consistent price field naming
-              pricePerKg: data.pricePerKg || data.price || 0,
-              // Ensure consistent quantity field naming
-              quantityKg: data.quantityKg || data.quantity || 0,
-              // Format dates
-              createdAt: data.createdAt?.toDate?.() || new Date(),
-              lastUpdated: data.lastUpdated?.toDate?.() || new Date(),
-            };
-          });
+          // Only include documents that look like produce (type === 'produce')
+          const firebaseData = snapshot.docs
+            .filter((doc) => doc.data()?.type === "produce")
+            .map((doc) => {
+              const data = doc.data();
+              return {
+                id: doc.id,
+                ...data,
+                // Ensure consistent price field naming
+                pricePerKg: data.pricePerKg || data.price || 0,
+                // Ensure consistent quantity field naming
+                quantityKg: data.quantityKg || data.quantity || 0,
+                // Format dates
+                createdAt: data.createdAt?.toDate?.() || new Date(),
+                lastUpdated: data.lastUpdated?.toDate?.() || new Date(),
+              };
+            });
+
           setProduceData([...defaultProduce, ...firebaseData]);
           setError(null);
         } catch (err) {

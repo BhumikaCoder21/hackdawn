@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Marketplace from "./pages/Marketplace";
 import PostProduce from "./pages/PostProduce";
+import PostRide from "./pages/PostRide";
 import TruckRoutes from "./pages/TruckRoutes";
 import Learn from "./pages/Learn";
 import Drivers from "./pages/Drivers";
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/post" element={<PostProduce />} />
+          <Route path="/postride" element={<PostRide />} />
           <Route path="/trucks" element={<TruckRoutes />} />
           <Route path="/learn" element={<Learn />} />
           <Route path="/drivers" element={<Drivers />} />

@@ -14,9 +14,13 @@ export default function Header() {
         <nav className="flex flex-wrap gap-8 items-center font-[Poppins]">
           {[
             { to: "/", label: "Home" },
+
             { to: "/marketplace", label: "Marketplace" },
             { to: "/post", label: "Post Produce" },
+
+            { to: "/postride", label: "Post Ride" },
             { to: "/trucks", label: "Truck Routes" },
+
             { to: "/learn", label: "Learn" },
           ].map((item, idx) => (
             <Link
