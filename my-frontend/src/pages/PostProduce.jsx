@@ -1,4 +1,4 @@
-PostProduce.jsx: import React, { useState } from "react";
+import React, { useState } from "react";
 import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
@@ -84,11 +84,11 @@ export default function PostProduce() {
         setErrors({});
         setRetryCount(0);
       } catch (error) {
-        console.error(Error adding produce (attempt ${attempt + 1}):, error);
+        console.error(`Error adding produce (attempt ${attempt + 1}):`, error);
 
         if (attempt < 2) {
           setRetryCount(attempt + 1);
-          setMessage(Retrying... (attempt ${attempt + 2}/3));
+          setMessage(`Retrying... (attempt ${attempt + 2}/3)`);
           await new Promise((resolve) => setTimeout(resolve, 1000));
           return trySubmit(attempt + 1);
         }

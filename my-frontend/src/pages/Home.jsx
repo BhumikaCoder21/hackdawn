@@ -14,7 +14,7 @@ const Home = () => {
       {/* 🌄 Hero Section */}
       <section
         className="relative flex flex-col justify-center items-center text-center h-screen bg-cover bg-center"
-        style={{ backgroundImage: url(${bannerfinal}) }}
+        style={{ backgroundImage: `url(${bannerfinal})` }}
       >
         {/* Overlay for readability */}
         <div className="absolute inset-0 bg-black/30"></div>

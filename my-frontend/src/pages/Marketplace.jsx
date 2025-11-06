@@ -197,7 +197,7 @@ export default function Marketplace() {
           <div key={i}>
             <img
               src={banner}
-              alt={Explore Banner ${i + 1}}
+              alt={`Explore Banner ${i + 1}`}
               className="h-[320px] w-full object-cover"
             />
           </div>
