@@ -167,7 +167,7 @@ export default function Marketplace() {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen">
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto text-center">
-          <p className="text-red-600 text-lg mb-4">⚠ {error}</p>
+          <p className="text-red-600 text-lg mb-4">⚠️ {error}</p>
           <button
             onClick={() => window.location.reload()}
             className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"

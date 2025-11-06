@@ -2,10 +2,10 @@ import { useEffect } from "react";
 
 export default function ChatbaseWidget() {
   useEffect(() => {
-   
+    // Prevent multiple embeds
     if (document.getElementById("TAprqM6ci1JBDux7L5ebZ")) return;
 
-    
+    // Create the Chatbase wrapper script
     const script = document.createElement("script");
     script.innerHTML = `
       (function(){
