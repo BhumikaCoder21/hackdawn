@@ -97,10 +97,10 @@ export default function PostRide() {
             required
           >
             <option value="">Select Category</option>
-            <option value="Fruit">Mini Truck</option>
-            <option value="Vegetable">Pickup Trucks</option>
-            <option value="Pickle">Tractor</option>
-            <option value="Jam">Delivery Vans</option>
+            <option value="Mini Truck">Mini Truck</option>
+            <option value="Pickup Trucks">Pickup Trucks</option>
+            <option value="Tractors">Tractor</option>
+            <option value="Delivery Vans">Delivery Vans</option>
           </select>
           {errors.category && (
             <p className="text-red-500 text-sm mt-1">{errors.category}</p>

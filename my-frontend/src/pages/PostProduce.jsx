@@ -68,9 +68,14 @@ export default function PostProduce() {
         type: "produce",
       };
 
-      await addDoc(collection(db, "produce"), produceData);
+        // Log attempt and document id for debugging duplicate-post issues
+        const docRef = await addDoc(collection(db, "produce"), produceData);
+        console.debug(
+          `PostProduce: added doc id=${docRef.id} attempt=${'attempt + 1'}`,
+          produceData
+        );
 
-      setMessage("✅ Produce posted successfully!");
+        setMessage("✅ Produce posted successfully!");
       setFormData({
         name: "",
         category: "",

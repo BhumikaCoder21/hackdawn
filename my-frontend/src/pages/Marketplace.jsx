@@ -23,11 +23,10 @@ export default function Marketplace() {
   const [filter, setFilter] = useState("All");
   const [produceData, setProduceData] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Default local produce items
+    // Default local produce items (only used as fallback)
     const defaultProduce = [
       {
         id: "local1",
@@ -126,7 +125,19 @@ export default function Marketplace() {
               };
             });
 
-          setProduceData([...defaultProduce, ...firebaseData]);
+          console.log("Firebase Data Count:", firebaseData.length);
+          console.log("Firebase Data IDs:", firebaseData.map(i => i.id));
+
+          // Always show first 4 hardcoded items + Firebase data
+          const hardcodedItems = defaultProduce.slice(0, 4);
+          const combined = [...hardcodedItems, ...firebaseData];
+          
+          // Remove duplicates by ID (Firebase data takes precedence)
+          const uniqueById = Array.from(
+            new Map(combined.map((item) => [item.id, item])).values()
+          );
+          
+          setProduceData(uniqueById);
           setError(null);
         } catch (err) {
           console.error("Error processing Firestore data:", err);
@@ -155,6 +166,8 @@ export default function Marketplace() {
       : produceData.filter(
           (item) => item.category?.toLowerCase() === filter.toLowerCase()
         );
+
+  console.log("Filtered Data Count:", filteredData.length);
 
   if (loading) {
     return (
@@ -237,27 +250,16 @@ export default function Marketplace() {
         ))}
       </div>
 
-      {/* 🧺 Produce Carousel (Cards Section) */}
-      <div className="max-w-6xl mx-auto">
-        <Carousel
-          autoPlay
-          infiniteLoop
-          interval={2500}
-          showThumbs={false}
-          showStatus={false}
-          swipeable
-          emulateTouch
-          centerMode
-          centerSlidePercentage={33.33}
-          className="rounded-lg overflow-hidden"
-        >
+      {/* 🧺 Produce Grid (Replaced Carousel) */}
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredData.map((item, index) => (
             <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.08 }}
-              className="relative rounded-lg overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 group mx-2"
+              className="relative rounded-lg overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 group"
             >
               {item.imageUrl ? (
                 <img
@@ -290,7 +292,7 @@ export default function Marketplace() {
               </div>
             </motion.div>
           ))}
-        </Carousel>
+        </div>
       </div>
     </div>
   );
