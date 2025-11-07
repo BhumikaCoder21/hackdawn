@@ -18,19 +18,20 @@ export default function Header() {
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
         {/* 🌾 Brand Logo */}
         <h1
-          className="text-3xl font-[Playfair_Display] font-extrabold cursor-pointer"
           onClick={() => navigate("/")}
+          className="text-3xl font-[Playfair_Display] font-extrabold cursor-pointer"
         >
           Agri<span className="text-yellow-300">Hills</span>
         </h1>
 
         {/* 🌿 Navigation */}
-        {user && (
+        {user ? (
           <nav className="flex flex-wrap gap-8 items-center font-[Poppins]">
             {[
               { to: "/", label: "Home" },
               { to: "/marketplace", label: "Marketplace" },
               { to: "/post", label: "Post Produce" },
+              { to: "/postride", label: "Post Ride" },
               { to: "/trucks", label: "Truck Routes" },
               { to: "/learn", label: "Learn" },
             ].map((item, idx) => (
@@ -46,7 +47,7 @@ export default function Header() {
               </Link>
             ))}
 
-            {/* 🌼 Auth Button */}
+            {/* 🌼 Logout Button */}
             <button
               onClick={handleLogout}
               className="bg-yellow-400 text-gray-900 font-[Poppins] font-semibold px-4 py-2 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
@@ -54,15 +55,24 @@ export default function Header() {
               Logout
             </button>
           </nav>
-        )}
+        ) : (
+          <div className="flex flex-wrap gap-3 items-center font-[Poppins]">
+            {/* 🌿 Sign In Button */}
+            <Link
+              to="/login"
+              className="bg-yellow-400 text-gray-900 font-semibold px-4 py-2 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
+            >
+              Sign In
+            </Link>
 
-        {!user && (
-          <Link
-            to="/login"
-            className="bg-yellow-400 text-gray-900 font-[Poppins] font-semibold px-4 py-2 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
-          >
-            Sign In
-          </Link>
+            {/* 🌾 Sign Up Button */}
+            <Link
+              to="/signup"
+              className="bg-white text-green-700 border border-green-500 font-semibold px-4 py-2 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
+            >
+              Sign Up
+            </Link>
+          </div>
         )}
       </div>
     </header>

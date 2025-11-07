@@ -1,4 +1,5 @@
 // src/App.jsx
+// src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -9,15 +10,17 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Marketplace from "./pages/Marketplace";
 import PostProduce from "./pages/PostProduce";
+import PostRide from "./pages/PostRide";
 import TruckRoutes from "./pages/TruckRoutes";
 import Learn from "./pages/Learn";
 import Drivers from "./pages/Drivers";
-import Login from "./pages/Login"; // ✅ new login page
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
-import { AuthProvider, useAuth } from "./context/AuthContext"; // ✅ context
-import ProtectedRoute from "./components/ProtectedRoute"; // ✅ guards pages
+import { AuthProvider, useAuth } from "./context/AuthContext"; // ✅ Firebase Auth Context
+import ProtectedRoute from "./components/ProtectedRoute"; // ✅ Protects Routes
 
-// 🌿 Internal content for handling login state
+// 🌿 Handles authentication and route access logic
 function AppContent() {
   const { user } = useAuth();
 
@@ -25,6 +28,7 @@ function AppContent() {
     <>
       {user ? (
         <>
+          {/* ✅ Navbar and Footer visible when logged in */}
           <Header />
           <main className="min-h-screen">
             <Routes>
@@ -49,6 +53,14 @@ function AppContent() {
                 element={
                   <ProtectedRoute>
                     <PostProduce />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/postride"
+                element={
+                  <ProtectedRoute>
+                    <PostRide />
                   </ProtectedRoute>
                 }
               />
@@ -81,9 +93,10 @@ function AppContent() {
           <Footer />
         </>
       ) : (
+        // 🌼 Routes accessible only when logged out
         <Routes>
-          {/* if not logged in, only show login */}
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<Login />} />
         </Routes>
       )}
@@ -91,13 +104,13 @@ function AppContent() {
   );
 }
 
-// 🌾 Final Exported App
+// 🌾 Final Exported App Component
 export default function App() {
   return (
     <AuthProvider>
       <Router>
         <AppContent />
-        {/* Chatbase Widget globally */}
+        {/* 💬 Chatbase Widget is globally active */}
         <ChatbaseWidget />
       </Router>
     </AuthProvider>
