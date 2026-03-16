@@ -14,10 +14,7 @@ import tomatoes from "../assets/tomatoes.jpg";
 import oranges from "../assets/oranges.jpg";
 import chilli from "../assets/chilli.jpg";
 import ginger from "../assets/ginger.jpg";
-import jam from "../assets/jam.jpg";
-import pickle from "../assets/pickle.jpg";
-import juice from "../assets/juice.jpg";
-import kiwi from "../assets/kiwi.jpg";
+
 
 export default function Marketplace() {
   const [filter, setFilter] = useState("All");
@@ -99,7 +96,7 @@ export default function Marketplace() {
           console.log("Firebase Data Count:", firebaseData.length);
           console.log("Firebase Data IDs:", firebaseData.map(i => i.id));
 
-          // Always show first 4 hardcoded items + Firebase data
+         
           const hardcodedItems = defaultProduce.slice(0, 4);
           const combined = [...hardcodedItems, ...firebaseData];
           
@@ -169,7 +166,7 @@ export default function Marketplace() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-[#f6fff5] pb-10">
-      {/* 🌿 Banner Carousel */}
+     
       <Carousel
         autoPlay
         infiniteLoop
