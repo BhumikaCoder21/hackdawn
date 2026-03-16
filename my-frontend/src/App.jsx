@@ -2,7 +2,7 @@
 // src/App.jsx
 // src/App.jsx
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // 🌿 Components
 import ChatbaseWidget from "./components/ChatbaseWidget";
@@ -41,8 +41,7 @@ function NotFound() {
 }
 
 // 🌾 Route Controller
-function AppRoutes() {
-  const { user } = useAuth();
+const { user } = useAuth();
 
   return (
     <>
