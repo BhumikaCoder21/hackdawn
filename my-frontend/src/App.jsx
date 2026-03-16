@@ -1,6 +1,4 @@
 // src/App.jsx
-// src/App.jsx
-// src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -22,7 +20,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
 // 🌱 Auth Context
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 
 // 🌼 Fallback 404 Page
 function NotFound() {
@@ -41,11 +39,11 @@ function NotFound() {
 }
 
 // 🌾 Route Controller
-const { user } = useAuth();
-
+function AppRoutes() {
   return (
     <>
       <Header />
+
       <main className="min-h-screen pt-20">
         <Routes>
           {/* Public Pages */}
@@ -56,7 +54,7 @@ const { user } = useAuth();
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
-          {/* Protected Pages (require login) */}
+          {/* Protected Pages */}
           <Route
             path="/post"
             element={
@@ -65,6 +63,7 @@ const { user } = useAuth();
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/postride"
             element={
@@ -73,6 +72,7 @@ const { user } = useAuth();
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/trucks"
             element={
@@ -82,16 +82,17 @@ const { user } = useAuth();
             }
           />
 
-          {/* Catch-all route */}
+          {/* 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
+
       <Footer />
     </>
   );
 }
 
-// 🌿 Root App Component
+// 🌿 Root App
 export default function App() {
   return (
     <AuthProvider>
