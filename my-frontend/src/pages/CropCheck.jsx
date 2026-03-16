@@ -60,8 +60,6 @@ export default function CropCheck() {
           onChange={(e) => setFiles([...e.target.files])}
           className="border rounded px-3 py-2"
         />
-
-        {/* tiny preview */}
         {files.length > 0 && (
           <div className="mt-1">
             <img
@@ -100,14 +98,12 @@ export default function CropCheck() {
             </h2>
           </div>
 
-          {/* Low-confidence hint */}
           {res?.top_conditions?.[0]?.confidence < 0.6 && (
             <p className="mt-2 text-amber-700 bg-amber-50 border border-amber-200 rounded p-2 text-sm">
               Low confidence. Retake 2–3 clear photos (single leaf, bright even light) for better suggestions.
             </p>
           )}
 
-          {/* Possible conditions with bars */}
           {Array.isArray(res.top_conditions) && res.top_conditions.length > 0 && (
             <div className="mt-4">
               <h3 className="font-medium">Possible Conditions</h3>
@@ -133,7 +129,6 @@ export default function CropCheck() {
             </div>
           )}
 
-          {/* Solutions & Suggestions */}
           <div className="mt-5">
             <h3 className="font-medium">Solutions & Suggestions</h3>
             {Array.isArray(res.advice) && res.advice.length > 0 ? (

@@ -1,14 +1,9 @@
-// src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-// 🌿 Components
 import ChatbaseWidget from "./components/ChatbaseWidget";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
-
-// 🌾 Pages
 import Home from "./pages/Home";
 import Marketplace from "./pages/Marketplace";
 import PostProduce from "./pages/PostProduce";
@@ -18,11 +13,7 @@ import Learn from "./pages/Learn";
 import CropCheck from "./pages/CropCheck";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-
-// 🌱 Auth Context
 import { AuthProvider } from "./context/AuthContext";
-
-// 🌼 Fallback 404 Page
 function NotFound() {
   return (
     <div className="max-w-2xl mx-auto p-10 text-center">
@@ -37,8 +28,6 @@ function NotFound() {
     </div>
   );
 }
-
-// 🌾 Route Controller
 function AppRoutes() {
   return (
     <>
@@ -46,15 +35,12 @@ function AppRoutes() {
 
       <main className="min-h-screen pt-20">
         <Routes>
-          {/* Public Pages */}
           <Route path="/" element={<Home />} />
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/learn" element={<Learn />} />
           <Route path="/crop-check" element={<CropCheck />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
-          {/* Protected Pages */}
           <Route
             path="/post"
             element={
@@ -81,8 +67,6 @@ function AppRoutes() {
               </ProtectedRoute>
             }
           />
-
-          {/* 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
@@ -91,8 +75,6 @@ function AppRoutes() {
     </>
   );
 }
-
-// 🌿 Root App
 export default function App() {
   return (
     <AuthProvider>

@@ -2,10 +2,7 @@ import { useEffect } from "react";
 
 export default function ChatbaseWidget() {
   useEffect(() => {
-    // Prevent multiple embeds
     if (document.getElementById("TAprqM6ci1JBDux7L5ebZ")) return;
-
-    // Create the Chatbase wrapper script
     const script = document.createElement("script");
     script.innerHTML = `
       (function(){
@@ -33,14 +30,12 @@ export default function ChatbaseWidget() {
       })();
     `;
     document.body.appendChild(script);
-
-    // 💅 Custom styling for chat window
     const style = document.createElement("style");
     style.innerHTML = `
       /* Chatbase Chatbot window styling */
       iframe[title="chatbase-chatbot"] {
         width: 400px !important;        /* Chat window width */
-        height: 50vh !important;        /* 👈 Takes half the screen height */
+        height: 50vh !important;        /*  Takes half the screen height */
         max-height: 50vh !important;    /* Ensures it doesn't expand */
         bottom: 50px !important;        /* Adjusts spacing from bottom */
         right: 22px !important;

@@ -21,7 +21,7 @@ export default function Signup() {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/"); // redirect to homepage after signup
+      navigate("/"); 
     } catch (err) {
       setError(err.message);
     }

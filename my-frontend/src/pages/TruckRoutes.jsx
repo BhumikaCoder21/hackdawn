@@ -1,5 +1,3 @@
-// TruckRoutes.jsx — shows truck/ride routes and accepts incoming form data
-// TruckRoutes.jsx — shows truck/ride routes and accepts incoming form data
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
@@ -146,8 +144,6 @@ export default function TruckRoutes() {
         <h1 className="text-4xl font-extrabold text-center mb-8 text-green-700">
           🚚 Available Truck Routes & Rides
         </h1>
-
-        {/* Search Filter Bar */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8 border border-gray-100">
           <div className="flex flex-col md:flex-row gap-4 items-end">
             <div className="flex-1">
@@ -194,8 +190,6 @@ export default function TruckRoutes() {
             </div>
           </div>
         </div>
-
-        {/* Routes List */}
         {filteredRoutes.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🔍</div>
@@ -266,8 +260,6 @@ export default function TruckRoutes() {
             ))}
           </div>
         )}
-
-        {/* 🗺️ Map Modal */}
         {selectedRoute && (
           <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
             <div className="bg-white rounded-2xl p-6 w-[90%] max-w-4xl shadow-xl relative">
@@ -287,7 +279,6 @@ export default function TruckRoutes() {
                 zoom={6}
                 center={{ lat: 25.5788, lng: 93.9629 }}
               >
-                {/* Markers for start and end */}
                 <Marker
                   position={{ lat: 26.1445, lng: 91.7362 }}
                   label="A"
